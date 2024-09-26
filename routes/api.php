@@ -9,3 +9,4 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:sanctum');
 
 Route::get('/transactions', [TransactionController::class, 'index']);
+Route::post('/transactions', [TransactionController::class, 'store']);

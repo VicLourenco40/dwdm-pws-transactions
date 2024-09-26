@@ -12,7 +12,23 @@ class TransactionController extends Controller
         $transactions = Transaction::all();
 
         return response()->json([
-            $transactions
+            'transactions' => $transactions
+        ]);
+    }
+
+    public function store(Request $request)
+    {
+        $transaction = new Transaction();
+
+        $transaction->description = $request->description;
+        $transaction->amount = $request->amount;
+        $transaction->category = $request->category;
+        $transaction->type = $request->type;
+
+        $transaction->save();
+
+        return response()->json([
+            'transaction' => $transaction
         ]);
     }
 }
