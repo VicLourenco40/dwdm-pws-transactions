@@ -22,9 +22,21 @@ class StoreTransactionRequest extends FormRequest
         ];
     }
 
+    public function messages(): array
+    {
+        return [
+            'description.required' => 'The description field is required.',
+            'description.string' => 'THe description has to be a string.',
+            'description.max' => 'The description has a limit of 255 characters.',
+            'amount.numeric' => 'The amount has to be a number.'
+        ];
+    }
+
     protected function failedValidation(Validator $validator) {
-        throw new HttpResponseException(response()->json([
-            'errors' => $validator -> errors()
-        ], 422));
+        throw new HttpResponseException(
+            response()->json([
+                'errors' => $validator->errors()
+            ], 422)
+        );
     }
 }
