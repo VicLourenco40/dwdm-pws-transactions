@@ -10,7 +10,7 @@ class TransactionController extends Controller
 {
     public function index()
     {
-        $transactions = Transaction::all();
+        $transactions = Transaction::with('category')->get();
 
         return response()->json([
             'transactions' => $transactions
