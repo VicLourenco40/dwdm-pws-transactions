@@ -20,12 +20,10 @@ class TransactionController extends Controller
     public function store(StoreTransactionRequest $request)
     {
         $transaction = new Transaction();
-
         $transaction->description = $request->description;
         $transaction->amount = $request->amount;
         $transaction->category = $request->category;
         $transaction->type = $request->type;
-
         $transaction->save();
 
         return response()->json([

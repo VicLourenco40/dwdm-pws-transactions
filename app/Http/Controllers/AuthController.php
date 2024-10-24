@@ -6,10 +6,11 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use App\Models\User;
+use App\Http\Requests\RegisterRequest;
 
 class AuthController extends Controller
 {
-    public function register(Request $request)
+    public function register(RegisterRequest $request)
     {
         $doesUserAlreadyExist = User::where('email', $request->email)->first();
 
@@ -21,19 +22,19 @@ class AuthController extends Controller
         }
 
         $user = new User();
-
         $user->name = $request->name;
         $user->email = $request->email;
         $user->password = Hash::make($request->password);
-
         $user->save();
 
-        $token = JTWAuth::fromUser($user);
+        $token = JWTAuth::claims([
+            'role' => $user->role
+        ])->fromUser($user);
 
         return response()->json([
             'user' => $user,
             'token' => $token
-        ]);
+        ], 201);
     }
 
     public function login(Request $request)

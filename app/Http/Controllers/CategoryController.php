@@ -18,6 +18,18 @@ class CategoryController extends Controller
 
     public function store(Request $request)
     {
+        $user = auth()->user();
+
+        if ($user->role != 'ADMIN') {
+            return response()->json([
+                'error' => 'No permissions'
+            ], 403);
+        }
+
+        return response()->json([
+            $user
+        ]);
+
         $category = new Category();
 
         $category->title = $request->title;
